@@ -1,0 +1,29 @@
+"""
+Day 17 Activity: Scaling Practice
+Tasks:
+1) Load numeric dataset
+2) Apply Min-Max, Standard, and Robust scaling
+3) Compare distributions or summary stats
+"""
+
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler
+
+# TODO: Load data from data/day17_scaling.csv
+df = pd.read_csv("day17_scaling.csv")
+
+# TODO: Fit scalers on numeric columns
+mn_scaler = MinMaxScaler()
+df_mn=df.copy()
+df_mn[["CRIM_mn","RM_mn"]]=mn_scaler.fit_transform(df[["CRIM","RM"]])
+std_scaler = StandardScaler()
+df_std=df.copy()
+df_std[["CRIM_std","RM_std"]]=std_scaler.fit_transform(df[["CRIM","RM"]])
+rb_scaler = RobustScaler()
+df_rb=df.copy()
+df_rb[["CRIM_rb","RM_rb"]]=rb_scaler.fit_transform(df[["CRIM","RM"]])
+# TODO: Transform and compare summaries
+print("Original:\n",df[["CRIM","RM"]].describe())
+print("Min-Max:\n",df_mn[["CRIM_mn","RM_mn"]].describe())
+print("Standard:\n",df_std[["CRIM_std","RM_std"]].describe())
+print("Robust:\n",df_rb[["CRIM_rb","RM_rb"]].describe())
