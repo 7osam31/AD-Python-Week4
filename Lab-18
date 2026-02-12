@@ -1,0 +1,32 @@
+"""
+Day 18 Activity: Binning Practice
+Tasks:
+1) Load age dataset
+2) Apply equal-width bins, equal-frequency bins, and domain bins
+3) One-hot encode bins and compare
+"""
+
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+
+# TODO: Load data from data/day18_binning.csv
+df = pd.read_csv("C:\\Users\\acer57\\OneDrive\\Desktop\\my web\\python\\day18_binning.csv")
+
+# TODO: Apply pd.cut and pd.qcut
+bin_edges = [0,18,35,50,100]
+labels=["Child","Young","Adult","Senior"]
+df["Width_Age"]=pd.cut(df["age"],bins=bin_edges,labels=labels,right=False)
+df["age_qcut"]=pd.qcut(df["age"],q=4,labels=["Q1","Q2","Q3","Q4"])
+print(df.head())
+# TODO: Create domain bins
+df["Doamin_age"]=pd.cut(df["age"],bins=bin_edges,labels=labels,right=False)
+#TODO: One-hot encode bins
+ohe=OneHotEncoder(sparse_output=True,handle_unknown="ignore")
+onh=ohe.fit_transform(df[["age"]])
+# TODO: Compare value counts
+print("Orginal,\n",df["age"],"\n")
+print("Width:\n",df["Width_Age"],"\n")
+print("Qcut:\n",df["age_qcut"],"\n")
+print("Domain:\n",df["Doamin_age"],"\n")
+print("One-hot:\n",onh,"\n")
+
