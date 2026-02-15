@@ -1,0 +1,36 @@
+"""
+Day 19 Activity: Transformation Practice
+Tasks:
+1) Load skewed feature
+2) Apply log1p, sqrt, and Yeo-Johnson
+3) Compare before/after
+"""
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+# TODO: Load data from data/day19_transform.csv
+df = pd.read_csv("C:\\Users\\acer57\\OneDrive\\Desktop\\my web\\python\\day19_transform.csv")
+
+
+# TODO: Apply transforms and compare summary stats
+#Original
+sns.histplot(df["spend"])
+plt.title("Original")
+plt.show()
+
+#Log1P
+df["log_tran"]=np.log1p(df["spend"])
+sns.histplot(df["log_tran"])
+plt.title("Log Trans")
+plt.show()
+
+#SQRT
+df["sqrt_tran"]=np.sqrt(df["spend"])
+sns.histplot(df["sqrt_tran"])
+plt.title("SQRT_Trans")
+plt.show()
+
