@@ -1,0 +1,60 @@
+"""
+Day 20 Activity: Integrated Feature Engineering
+Tasks:
+1) Load dataset
+2) Encode categoricals, scale numerics
+3) Add interaction and transformed feature
+4) Compare baseline vs engineered features
+
+"""
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+# TODO: Load data from data/day20_integration.csv
+df = pd.read_csv("C:\\Users\\acer57\\OneDrive\\Desktop\\my web\\python\\day20_integration.csv")
+dfcop=df.copy()
+
+# TODO: Build engineered features
+
+# One-hot encode "category"
+ohe=OneHotEncoder(sparse_output=False,handle_unknown="ignore")
+dfcop["city"]=ohe.fit_transform(dfcop[["city"]])
+dfcop["device_type"]=ohe.fit_transform(dfcop[["device_type"]])
+
+# Scale Numeric 
+scaler=StandardScaler()
+dfcop["pages_viewed"]=scaler.fit_transform(dfcop[["pages_viewed"]])
+dfcop["session_minutes"]=scaler.fit_transform(dfcop[["session_minutes"]])
+dfcop["basket_value"]=scaler.fit_transform(dfcop[["basket_value"]])
+
+# Transform SQRT
+dfcop["SQRT_basket_value"]=np.sqrt(dfcop["basket_value"])
+#Transform log1p
+dfcop["Log1p_session_minutes"]=np.log1p(dfcop["session_minutes"])
+# TODO: Compare baseline vs engineered (summary stats or model)
+
+#Original
+print("Original dis:\n", df.describe())
+print("Original info:\n", df.info())
+sns.histplot(df["basket_value"])
+plt.title("Original basket_value")
+plt.show()
+
+sns.histplot(df["session_minutes"])
+plt.title("Original session_minutes")
+plt.show()
+
+#Engineered
+print("Engineered dis:\n", dfcop.describe())    
+print("Engineered info:\n", dfcop.info())
+
+sns.histplot(dfcop["SQRT_basket_value"])
+plt.title("SQRT_basket_value")  
+plt.show()
+sns.histplot(dfcop["Log1p_session_minutes"])
+plt.title("Log1p_session_minutes")
+plt.show()
